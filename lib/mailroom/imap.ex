@@ -1,8 +1,10 @@
 defmodule Mailroom.IMAP do
-  require Logger
   use GenServer
 
   import Mailroom.IMAP.Utils
+
+  require Logger
+
   alias Mailroom.IMAP.{Envelope, BodyStructure}
 
   defmodule State do
@@ -417,12 +419,12 @@ defmodule Mailroom.IMAP do
   end
 
   def handle_info({:ssl, _socket, msg}, state) do
-    if state.debug, do: IO.write(["> [ssl] ", msg])
+    if state.debug, do: Logger.info(["> [ssl] ", msg])
     handle_response(msg, state)
   end
 
   def handle_info({:tcp, _socket, msg}, state) do
-    if state.debug, do: IO.write(["> [tcp] ", msg])
+    if state.debug, do: Logger.info(["> [tcp] ", msg])
     handle_response(msg, state)
   end
 
@@ -854,11 +856,11 @@ defmodule Mailroom.IMAP do
   defp get_next_line(%{debug: debug}) do
     receive do
       {:ssl, _socket, data} ->
-        if debug, do: IO.write(["> [ssl] ", data])
+        if debug, do: Logger.info(["> [ssl] ", data])
         data
 
       {:tcp, _socket, data} ->
-        if debug, do: IO.write(["> [tcp] ", data])
+        if debug, do: Logger.info(["> [tcp] ", data])
         data
     end
   end
