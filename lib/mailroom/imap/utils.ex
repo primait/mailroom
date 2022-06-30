@@ -176,6 +176,8 @@ defmodule Mailroom.IMAP.Utils do
   @spec flags_to_list(item | [item]) :: [String.t()]
   def flags_to_list(list, acc \\ [])
 
+  def flags_to_list([], []), do: []
+
   def flags_to_list([], [" " | acc]),
     do: Enum.reverse([")" | acc])
 

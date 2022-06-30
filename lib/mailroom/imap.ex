@@ -348,6 +348,11 @@ defmodule Mailroom.IMAP do
   def state(pid),
     do: GenServer.call(pid, :state)
 
+  @spec append(srv, String.t(), iodata) :: {:ok, :completed}
+  @spec append(srv, String.t(), iodata, item_or_items) :: {:ok, :completed}
+  def append(pid, mailbox_name, message_literal, flags \\ []),
+    do: GenServer.call(pid, {:append, mailbox_name, message_literal, flags})
+
   @impl true
   def init(opts) do
     {:ok, %{debug: opts.debug, ssl: opts.ssl}}
@@ -511,6 +516,22 @@ defmodule Mailroom.IMAP do
   def handle_call(:state, _from, %{state: connection_state} = state),
     do: {:reply, connection_state, state}
 
+  def handle_call({:append, mailbox_name, message_literal, flags}, from, state) do
+    flags_list =
+      if Enum.empty?(flags) do
+        " "
+      else
+        [" ", flags_to_list(flags), " "]
+      end
+
+    {:noreply,
+     send_command(
+       from,
+       ["APPEND", " ", mailbox_name, flags_list, "{#{byte_size(message_literal)}}"],
+       %{state | temp: message_literal}
+     )}
+  end
+
   @impl true
   def handle_cast({:idle, timeout, reply_to, reply_with}, state) do
     timer = Process.send_after(self(), :idle_timeout, timeout)
@@ -641,6 +662,18 @@ defmodule Mailroom.IMAP do
 
   defp handle_response(<<"+ idling", _rest::binary>>, state),
     do: {:noreply, state}
+
+  defp handle_response(<<"+", _msg::binary>>, state) when is_binary(state.temp) do
+    # According to [rfc3501](https://datatracker.ietf.org/doc/html/rfc3501#section-7.5)
+    # it looks like we shouldn't rely on specific messages in command continuation requests.
+    #
+    # For the `append` command I've run some tests on dovecot and it replied
+    # "+ OK", while in [this example](https://datatracker.ietf.org/doc/html/rfc3501#page-47)
+    # the reply contains "+ Ready for literal data".
+    Socket.send(state.socket, [state.temp, "\r\n"])
+
+    {:noreply, state}
+  end
 
   defp handle_response(<<cmd_tag::binary-size(4), " ", msg::binary>>, state),
     do: handle_tagged_response(cmd_tag, msg, state)
@@ -929,6 +962,10 @@ defmodule Mailroom.IMAP do
          idle_reply_msg: nil,
          idle_timer: nil
      }}
+  end
+
+  defp process_command_response(cmd_tag, %{command: "APPEND", caller: caller}, _msg, state) do
+    send_reply(caller, :completed, %{remove_command_from_state(state, cmd_tag) | temp: nil})
   end
 
   defp process_command_response(cmd_tag, %{command: "IDLE", caller: caller}, _msg, state) do
