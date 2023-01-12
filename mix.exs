@@ -2,14 +2,14 @@ defmodule Mailroom.Mixfile do
   use Mix.Project
 
   @github_url "https://github.com/andrewtimberlake/mailroom"
-  @version "0.3.0"
+  @version "0.4.0"
 
   def project do
     [
       app: :mailroom,
       name: "Mailroom",
       version: @version,
-      elixir: "~> 1.6",
+      elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -52,7 +52,7 @@ defmodule Mailroom.Mixfile do
     [
       {:mail,
        git: "https://github.com/primait/elixir-mail.git",
-       ref: "17cd258340b2e5b58dfb5a2ca7da8d5a9464faa0"},
+       ref: "f37b4ce2bdd923da59780b70a2f4fde99f3021aa"},
       # DEV
       {:credo, "~> 1.0", only: :dev},
       # Docs
