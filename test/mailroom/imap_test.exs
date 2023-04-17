@@ -15,7 +15,7 @@ defmodule Mailroom.IMAPTest do
       expectations
       |> TestServer.tagged(:connect, "* OK [CAPABILITY IMAPrev4 STARTTLS]\r\n")
       |> TestServer.tagged("STARTTLS\r\n", ["OK Begin TLS\r\n"], ssl: true)
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -37,7 +37,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"wrong\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {5}\r\nwrong\r\n", [
         "NO [AUTHENTICATIONFAILED] Authentication failed\r\n"
       ])
       |> TestServer.tagged("LOGOUT\r\n", ["* BYE Logging off now\r\n", "OK We're done\r\n"])
@@ -57,7 +57,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"p!@#$%^&*()\\\"\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {12}\r\np!@#$%^&*()\"\r\n", [
         "NO [AUTHENTICATIONFAILED] Authentication failed\r\n"
       ])
       |> TestServer.tagged("LOGOUT\r\n", ["* BYE Logging off now\r\n", "OK We're done\r\n"])
@@ -77,7 +77,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -99,7 +99,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "OK test@example.com authenticated (Success)\r\n"
       ])
       |> TestServer.tagged("CAPABILITY\r\n", [
@@ -122,7 +122,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -163,7 +163,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -198,7 +198,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -239,7 +239,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -279,7 +279,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -306,7 +306,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -346,7 +346,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -386,7 +386,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -426,7 +426,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -466,7 +466,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -522,7 +522,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -575,7 +575,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -621,7 +621,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -756,7 +756,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -1111,7 +1111,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -1154,7 +1154,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -1243,7 +1243,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -1333,7 +1333,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -1381,7 +1381,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -1429,7 +1429,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -1471,7 +1471,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -1519,7 +1519,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4 IDLE)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -1578,7 +1578,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
@@ -1622,7 +1622,7 @@ defmodule Mailroom.IMAPTest do
     TestServer.expect(server, fn expectations ->
       expectations
       |> TestServer.tagged(:connect, "* OK IMAP ready\r\n")
-      |> TestServer.tagged("LOGIN \"test@example.com\" \"P@55w0rD\"\r\n", [
+      |> TestServer.tagged("LOGIN {16}\r\ntest@example.com {8}\r\nP@55w0rD\r\n", [
         "* CAPABILITY (IMAPrev4)\r\n",
         "OK test@example.com authenticated (Success)\r\n"
       ])
