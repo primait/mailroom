@@ -54,7 +54,7 @@ defmodule Mailroom.Mixfile do
        git: "https://github.com/primait/elixir-mail.git",
        ref: "17cd258340b2e5b58dfb5a2ca7da8d5a9464faa0"},
       # Override the old exact transitive pin so the patched CA bundle is used.
-      {:certifi, ">= 2.18.0 and < 3.0.0", override: true},
+      {:certifi, "~> 2.18.0", override: true},
       # DEV
       {:credo, "~> 1.0", only: :dev},
       # Docs
